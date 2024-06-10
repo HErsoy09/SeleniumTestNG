@@ -64,3 +64,11 @@ Osrc/test/java/techproed/tests/day24_DataProvider_XMLFiles/C01_DataProvider.java
 -src/test/java/techproed/pages/GooglePage.java,3\6\3637a843423aba343456d8408dfb56cf667fe920
 
 Osrc/test/java/techproed/tests/day24_DataProvider_XMLFiles/C02_DataProvider.java,7\1\718ee838deb97acafe7d83721fa447df3fbb1e76
+h
+8src/test/java/techproed/utilities/DataProviderUtils.java,e\8\e8f7276361a6943e8aaef19f338c214b36f75f43
+„
+Tsrc/test/java/techproed/tests/day24_DataProvider_XMLFiles/C03_DataProviderUtils.java,f\e\fe54a9f3130c142060ac804d90345a7dadf75040
+c
+3src/test/java/techproed/pages/DataProviderPage.java,c\2\c2c73b50448abcbbe09fba4ed5dd81eb1f48261c
+=
+smokeTest.xml,9\0\9050cc7fed4867daa3e043da5efc8f2052558fe3
