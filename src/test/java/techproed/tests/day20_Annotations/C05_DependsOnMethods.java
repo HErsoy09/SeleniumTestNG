@@ -22,7 +22,7 @@ public class C05_DependsOnMethods {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
     }
 
-    @Test
+    @Test(groups = "smoke") // belirliGruplarıCalistirma.xml kullanmak için isimlendirdik
     public void test01() {
 
         //Amazon

@@ -11,62 +11,66 @@ import java.time.Duration;
 
 public class Driver {
 
-    static WebDriver driver;
+    /*
+    ThreadLocal Class'ı Java'da her Thread'e özgü variable'lar saklamak için kullanılır.
+    PARALEL TESTLER YAPARKEN -> ThreadLocal<WebDriver> kullanımı, Thread'ler arasında izolasyon sağlar.
+    Dolayısıyla her bir thread'in kendi WebDriver objesine sahip olmasını sağlar.
+    Bu sayede paralel test yaparken testlerin birbirinden bağımsı ve stabil bir şekilde çalışmasını sağlar.
+     */
 
-    private Driver() {
-        /*
-        POM'da Driver Class'ındaki getDriver() metodunu object oluşturarak kullanılmasını engellemek için Singleton Pattern kullanımı benimsenmiştir.
-        Singleton Pattern (Tekli Kullanım): Bir calss'tan object oluşturulmasını engelleyerek o class'tan özelliklere erişimi tekli yaparız.
-        Bunu sağlamak için default constructor private yapılır.
-        */
-    }
+    // ThreadLocal ile her thread için ayrı bir WebDriver objesi oluşturuyoruz.
+
+    private static ThreadLocal<WebDriver> driverPool = new ThreadLocal<>();
 
     public static WebDriver getDriver() {
 
-        /*
-         Driver her çalıştığında yeni pencereler açmasın, tek bir driver üzerinden devam etsin diye if bloğu içine konuldu
-         Yapmış olduğumuz ayarlamada driver'a değer atanmamış ise başlatılacak, driver açıkken tekrar çağrılırsa yeniden çalıştırmadan, mevcut driver üzerinden devam edecek
-        */
+        if (driverPool.get() == null) {
 
-        if (driver == null) {
-
+            //WebDriver thread bazında oluşturuyoruz.
             switch (ConfigReader.getProperty("browser")) {
 
                 case "chrome":
-                    driver = new ChromeDriver();
+                    driverPool.set(new ChromeDriver());
                     break;
 
                 case "edge":
-                    driver = new EdgeDriver();
+                    driverPool.set(new EdgeDriver());
                     break;
 
                 case "safari":
-                    driver = new SafariDriver();
+                    driverPool.set(new SafariDriver());
                     break;
 
                 case "firefox":
-                    driver = new FirefoxDriver();
+                    driverPool.set(new FirefoxDriver());
                     break;
 
                 case "ie":
-                    driver = new InternetExplorerDriver();
+                    driverPool.set(new InternetExplorerDriver());
                     break;
 
                 default:
-                    driver = new ChromeDriver();
+                    driverPool.set(new ChromeDriver());
             }
 
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+            // Oluşturduğumuz WebDriver'ı yapılandırıyoruz.
+            driverPool.get().manage().window().maximize();
+            driverPool.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         }
-        return driver;
+        // Thread'e özgü WebDriver objesi return ediyoruz.
+        return driverPool.get();
+    }
+
+    private Driver() {
+        //Singleton Pattern
     }
 
     public static void closeDriver() {
 
-        if (driver != null) {
-            driver.close();
-            driver = null; //Session (kaynaklar) kapatmak için
+        //Açık olan WebDriver örneğini kapatıyoruz.
+        if (driverPool.get() != null) {
+            driverPool.get().quit();
+            driverPool.remove(); // ThreadLocal'daki referansı temizliyoruz
         }
     }
 }

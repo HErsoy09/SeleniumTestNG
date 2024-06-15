@@ -46,7 +46,7 @@ public class C01_Notasyonlar {
 
 //---------------------TESTS----------------
 
-    @Test
+    @Test(groups = "smoke") // belirliGruplarıCalistirma.xml kullanmak için isimlendirdik
     public void test01() {
         System.out.println("test01 test metodu çalıştı");
     }
@@ -60,5 +60,4 @@ public class C01_Notasyonlar {
     public void test03() {
         System.out.println("test03 test metodu çalıştı");
     }
-
 }

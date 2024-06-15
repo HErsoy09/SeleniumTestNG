@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd"> <!-- .dtd Data Type Definition-->
+<suite name="B203">
+    <test name="Smoke Test">
+       <classes>
+
+           <class name="techproed.tests.day20_Annotations.C01_Notasyonlar"></class>
+           <class name="techproed.tests.day21_SoftAssertion_POM.C03_DriverFirstTest"></class>
+           <class name="techproed.tests.day23_POM_Excel.C02_ExcelTest"></class>
+
+       </classes>
+    </test>
+</suite>

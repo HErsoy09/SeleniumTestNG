@@ -1,9 +1,8 @@
 package techproed.utilities;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebElement;
+import techproed.utilities.Driver;
+
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -122,9 +121,55 @@ public class ReusableMethods {
         }
     }
 
-    //WebTable
-//    public static void printData(int row, int column) {
-//        WebElement table = Driver.getDriver().findElement(By.xpath())
-//    }
+    // WebTable
+    public static void printData(int row, int column) {
+        WebElement table = Driver.getDriver().findElement(By.xpath("(//tbody)[1]//tr[" + row + "]"));
+        System.out.println(table.getText());
+    }
 
+    // Click Method
+    public static void click (WebElement element) {
+        try {
+            element.click();
+        } catch (Exception e) {
+            JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
+            jse.executeScript ("arguments[0].click();", element);
+        }
+    }
+
+    // JS Scroll
+    public static void scroll (WebElement element) {
+        JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
+        jse.executeScript("arguments[0].click();", element);
+    }
+
+    // JS Sayfa Sony Scroll
+    public static void scrollEnd() {
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        js.executeScript ("window.scrollTo(0,document.body.scrollHeight)");
+    }
+    //JS Sayfa Bası Scroll
+    public static void scrollHome() {
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        js.executeScript ("window.scrollTo(0,-document.body.scrollHeight)");
+    }
+
+    // JS SendKeys
+    public static void sendKeysJS (WebElement element, String text) {
+        JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
+        jse.executeScript("arguments[0].value='" + text + "'", element);
+    }
+
+    // JS SetAttributeValue
+    public static void setAttributeJS (WebElement element, String text) {
+    JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
+    jse.executeScript ("arguments[0].setAttribute('value','" + text + "')", element);
+    }
+
+    // JS GetAttributeValue
+    public static void getValueByJS(String id, String attributeName) {
+        JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
+        String attributeValue = (String) jse.executeScript("return document.getElementById('" + id + "')." + attributeName);
+        System.out.println("Attribute Value = " + attributeValue);
+    }
 }
